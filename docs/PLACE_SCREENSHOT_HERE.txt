@@ -1,0 +1,1 @@
+Drop IceCat_Screenshot.png in this folder and it will appear in the README.

@@ -1,0 +1,97 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'          # trigger on version tags like v3.0.1
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # allow manual trigger from GitHub UI
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      # ── 1. Checkout source ───────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 2. Set up Python ─────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # ── 3. Install dependencies ───────────────────────────────────
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      # ── 4. Find customtkinter path for bundling ───────────────────
+      - name: Find customtkinter
+        id: ctk_path
+        run: |
+          $ctk = python -c "import customtkinter, os; print(os.path.dirname(customtkinter.__file__))"
+          echo "CTK_PATH=$ctk" >> $env:GITHUB_ENV
+        shell: pwsh
+
+      # ── 5. Patch spec with correct customtkinter path ────────────
+      - name: Patch spec file
+        run: |
+          $spec = Get-Content IceCat_Companion.spec -Raw
+          $spec = $spec -replace "venv/Lib/site-packages/customtkinter", "$env:CTK_PATH"
+          Set-Content IceCat_Companion.spec $spec
+        shell: pwsh
+
+      # ── 6. Build EXE ─────────────────────────────────────────────
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller IceCat_Companion.spec --clean --noconfirm
+
+      # ── 7. Verify output ─────────────────────────────────────────
+      - name: Verify EXE exists
+        run: |
+          if (Test-Path "dist/IceCat_Companion_v3.0.exe") {
+            $size = (Get-Item "dist/IceCat_Companion_v3.0.exe").Length / 1MB
+            Write-Host "✅ EXE built successfully: $([math]::Round($size, 1)) MB"
+          } else {
+            Write-Error "❌ EXE not found!"
+            exit 1
+          }
+        shell: pwsh
+
+      # ── 8. Upload as build artifact (available on every push) ────
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: IceCat-Companion-EXE
+          path: dist/IceCat_Companion_v3.0.exe
+          retention-days: 30
+
+      # ── 9. Create GitHub Release (only on version tags) ──────────
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: IceCat Show Companion ${{ github.ref_name }}
+          body: |
+            ## IceCat Show Companion ${{ github.ref_name }}
+
+            ### Download
+            👇 Download `IceCat_Companion_v3.0.exe` below — no Python required.
+
+            ### First time?
+            Windows may show a SmartScreen warning. Click **More info → Run anyway**.
+
+            ### What's new
+            See [README](https://github.com/${{ github.repository }}#readme) for full feature list.
+          files: dist/IceCat_Companion_v3.0.exe
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
