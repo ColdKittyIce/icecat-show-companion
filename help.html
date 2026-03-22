@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IceCat Show Companion — Help Guide</title>
+<style>
+  :root {
+    --brand: #1a73e8;
+    --brand-light: #e8f0fe;
+    --amber: #f59e0b;
+    --amber-light: #fef3c7;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #1f2937;
+    --text-light: #6b7280;
+    --bg: #ffffff;
+    --bg2: #f9fafb;
+    --border: #e5e7eb;
+    --surface: #f3f4f6;
+    --code-bg: #1e293b;
+    --code-text: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--bg);
+  }
+  /* ── Layout ── */
+  .layout { display: flex; min-height: 100vh; }
+  nav {
+    width: 260px; min-width: 260px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky; top: 0; height: 100vh;
+    overflow-y: auto;
+  }
+  main {
+    flex: 1;
+    padding: 48px 56px;
+    max-width: 860px;
+  }
+  /* ── Nav ── */
+  .nav-logo {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .nav-logo .title { font-size: 13px; font-weight: 700; color: var(--brand); }
+  .nav-logo .sub   { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+  nav a {
+    display: block;
+    padding: 6px 20px;
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 3px solid transparent;
+    transition: all .15s;
+  }
+  nav a:hover { color: var(--brand); background: var(--brand-light); }
+  nav a.active { color: var(--brand); border-left-color: var(--brand); background: var(--brand-light); font-weight: 600; }
+  nav .section-label {
+    padding: 14px 20px 4px;
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-light);
+  }
+  /* ── Content ── */
+  h1 { font-size: 32px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  h1 .version { font-size: 14px; font-weight: 400; color: var(--text-light); margin-left: 10px; }
+  h2 { font-size: 22px; font-weight: 700; color: var(--text); margin: 48px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  h3 { font-size: 16px; font-weight: 700; color: var(--text); margin: 28px 0 8px; }
+  h4 { font-size: 14px; font-weight: 600; color: var(--text-light); margin: 20px 0 6px; text-transform: uppercase; letter-spacing: .05em; }
+  p  { margin-bottom: 14px; color: var(--text); }
+  ul, ol { margin: 0 0 14px 24px; }
+  li { margin-bottom: 6px; }
+  a  { color: var(--brand); }
+  /* ── Components ── */
+  .hero {
+    background: linear-gradient(135deg, #1e3a5f 0%, #1a73e8 100%);
+    color: white; border-radius: 12px;
+    padding: 36px 40px; margin-bottom: 40px;
+  }
+  .hero h1 { color: white; font-size: 28px; }
+  .hero p  { color: rgba(255,255,255,.85); margin-bottom: 0; }
+  .hero .tagline { font-size: 13px; opacity: .7; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .08em; }
+  .callout {
+    border-left: 4px solid var(--brand);
+    background: var(--brand-light);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px; margin: 20px 0;
+  }
+  .callout.tip   { border-color: var(--green); background: #f0fdf4; }
+  .callout.warn  { border-color: var(--amber); background: var(--amber-light); }
+  .callout.note  { border-color: var(--brand); background: var(--brand-light); }
+  .callout strong { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; color: var(--text-light); }
+  kbd {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-family: "Consolas", monospace;
+    font-size: 12px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-size: 11px; font-weight: 600;
+    margin: 0 2px;
+  }
+  .badge-blue   { background: var(--brand-light); color: var(--brand); }
+  .badge-amber  { background: var(--amber-light); color: #92400e; }
+  .badge-green  { background: #f0fdf4; color: #065f46; }
+  .badge-red    { background: #fef2f2; color: #991b1b; }
+  /* ── Shortcut table ── */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 14px; }
+  th { background: var(--surface); text-align: left; padding: 10px 14px; font-weight: 600; border-bottom: 2px solid var(--border); }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg2); }
+  /* ── Diagram SVGs ── */
+  .diagram { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin: 24px 0; text-align: center; }
+  .diagram svg { max-width: 100%; }
+  .diagram figcaption { font-size: 12px; color: var(--text-light); margin-top: 10px; }
+  /* ── Steps ── */
+  .steps { counter-reset: steps; margin: 20px 0; }
+  .step {
+    display: flex; gap: 16px; margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .step-num {
+    counter-increment: steps;
+    min-width: 36px; height: 36px;
+    background: var(--brand); color: white;
+    border-radius: 50%; display: flex;
+    align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px;
+    flex-shrink: 0;
+  }
+  .step-body h3 { margin: 0 0 4px; font-size: 15px; }
+  .step-body p  { margin: 0; font-size: 14px; color: var(--text-light); }
+  /* ── Feature grid ── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .card .icon { font-size: 22px; margin-bottom: 8px; }
+  .card h4 { font-size: 13px; font-weight: 700; color: var(--text); margin: 0 0 4px; text-transform: none; letter-spacing: 0; }
+  .card p { font-size: 13px; color: var(--text-light); margin: 0; }
+  /* ── FAQ ── */
+  details { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; }
+  details summary { padding: 14px 18px; cursor: pointer; font-weight: 600; font-size: 14px; list-style: none; display: flex; justify-content: space-between; }
+  details summary::after { content: "+"; font-size: 18px; color: var(--brand); }
+  details[open] summary::after { content: "−"; }
+  details[open] { border-color: var(--brand); }
+  .faq-body { padding: 0 18px 16px; font-size: 14px; color: var(--text); }
+  /* ── Misc ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+  .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-light); }
+  code { background: var(--surface); padding: 1px 5px; border-radius: 4px; font-family: Consolas, monospace; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ── Sidebar Nav ── -->
+<nav>
+  <div class="nav-logo">
+    <div class="title">IceCat Show Companion</div>
+    <div class="sub">Help Guide v3.0</div>
+  </div>
+  <div class="section-label">Getting Started</div>
+  <a href="#quickstart">Quick Start</a>
+  <a href="#overview">Interface Overview</a>
+  <div class="section-label">Features</div>
+  <a href="#header">Header &amp; Controls</a>
+  <a href="#soundboard">Soundboard</a>
+  <a href="#queue">Music Queue</a>
+  <a href="#recorder">Tape Recorder</a>
+  <a href="#mic">Mic Panel</a>
+  <a href="#rightpanel">Right Panel</a>
+  <a href="#notes">Notes</a>
+  <a href="#sessionlog">Session Log</a>
+  <a href="#bits">Bits Board</a>
+  <a href="#mini">Mini Mode</a>
+  <div class="section-label">Settings</div>
+  <a href="#settings-show">Show</a>
+  <a href="#settings-audio">Audio &amp; Mic</a>
+  <a href="#settings-soundboard">Soundboard</a>
+  <a href="#settings-hotkeys">Hotkeys</a>
+  <a href="#settings-websites">Websites</a>
+  <a href="#settings-visual">Visual</a>
+  <div class="section-label">Reference</div>
+  <a href="#shortcuts">Keyboard Shortcuts</a>
+  <a href="#tips">Tips &amp; Tricks</a>
+  <a href="#troubleshooting">Troubleshooting</a>
+</nav>
+
+<!-- ── Main Content ── -->
+<main>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="tagline">IceCat Show Companion</div>
+    <h1>Help Guide <span style="opacity:.6;font-size:18px">v3.0</span></h1>
+    <p>Everything you need to run a smooth show on Prankcast — soundboards, session logging, mic control, and more.</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="quickstart">🚀 Quick Start</h2>
+  <p>New to the companion? Get up and running in five steps.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Set up your show details</h3>
+        <p>Open <strong>Settings → Show</strong>. Enter your show name, Prankcast URL, and episode number. These appear in session log exports.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Configure your audio devices</h3>
+        <p>Go to <strong>Settings → Audio</strong>. Select your output device (soundboard playback), input device (recorder capture), and mic input device (for the mute button). If you use Voicemeeter, your virtual devices will appear here.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Load your soundboard</h3>
+        <p>Right-click any soundboard button and choose <strong>Assign File</strong> to load a sound. Drag &amp; drop audio files directly onto buttons. Right-click a bank tab to change its colour.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Go live</h3>
+        <p>Click <strong>GO LIVE</strong> (or press <kbd>Ctrl+Shift+L</kbd>) when your stream starts. The ON AIR badge lights red, the live timer starts, and session log timestamps include your elapsed time.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>End your show</h3>
+        <p>Click <strong>END LIVE</strong> to stop the timer. Use <strong>Session Log → 💾 Export</strong> to save a full show log. Your config auto-saves — everything will be exactly where you left it next time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="overview">Interface Overview</h2>
+  <p>The companion window is divided into four main zones:</p>
+
+  <!-- Layout diagram -->
+  <div class="diagram">
+    <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,sans-serif">
+      <!-- Header -->
+      <rect x="10" y="10" width="680" height="60" rx="6" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="350" y="37" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="700">HEADER</text>
+      <text x="350" y="55" text-anchor="middle" fill="#60a5fa" font-size="10">Logo · ON AIR · LIVE Timer · GO LIVE · CALL · COUNTDOWN · VOL · MUTE · PANIC · Mic Panel · Tape Recorder</text>
+      <!-- Soundboard -->
+      <rect x="10" y="80" width="440" height="160" rx="6" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/>
+      <text x="230" y="108" text-anchor="middle" fill="#065f46" font-size="12" font-weight="700">SOUNDBOARD</text>
+      <text x="230" y="126" text-anchor="middle" fill="#047857" font-size="10">Bank Tabs · Sound Buttons · Pinned Row</text>
+      <!-- Queue -->
+      <rect x="10" y="150" width="440" height="90" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="230" y="175" text-anchor="middle" fill="#1e40af" font-size="11" font-weight="700">MUSIC QUEUE  +  VOL/FADE</text>
+      <text x="230" y="193" text-anchor="middle" fill="#1d4ed8" font-size="10">⏮ ▶ ⏸ ⏹ ⏭ · Drag to reorder · Auto-advance</text>
+      <!-- Right panel -->
+      <rect x="460" y="80" width="230" height="170" rx="6" fill="#fefce8" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="575" y="108" text-anchor="middle" fill="#92400e" font-size="12" font-weight="700">RIGHT PANEL</text>
+      <text x="575" y="126" text-anchor="middle" fill="#78350f" font-size="10">Quick Folders + Sites</text>
+      <text x="575" y="142" text-anchor="middle" fill="#78350f" font-size="10">Bits Board</text>
+      <text x="575" y="158" text-anchor="middle" fill="#78350f" font-size="10">Session Log</text>
+      <!-- Bottom -->
+      <rect x="10" y="250" width="680" height="60" rx="6" fill="#faf5ff" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="350" y="277" text-anchor="middle" fill="#6b21a8" font-size="12" font-weight="700">BOTTOM STRIP</text>
+      <text x="350" y="295" text-anchor="middle" fill="#7c3aed" font-size="10">Notes (tabs) · Now Playing · Quick Copy</text>
+    </svg>
+    <figcaption>The four zones of IceCat Show Companion</figcaption>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="header">Header &amp; Broadcast Controls</h2>
+  <p>The header runs across the full width and gives you everything you need to manage the broadcast itself.</p>
+
+  <div class="diagram">
+    <svg viewBox="0 0 700 80" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,sans-serif" font-size="10">
+      <rect width="700" height="80" fill="#0f1923" rx="6"/>
+      <!-- Logo area -->
+      <rect x="8" y="8" width="110" height="64" rx="4" fill="#162030" stroke="#1e3a5f"/>
+      <text x="63" y="38" text-anchor="middle" fill="#93c5fd" font-weight="700" font-size="11">🧊 IceCat</text>
+      <text x="63" y="56" text-anchor="middle" fill="#60a5fa" font-size="9">Companion v3.0</text>
+      <!-- ON AIR -->
+      <rect x="126" y="20" width="74" height="40" rx="4" fill="#1a0a0a" stroke="#ef4444"/>
+      <text x="163" y="44" text-anchor="middle" fill="#ef4444" font-weight="700">● ON AIR</text>
+      <!-- Live timer -->
+      <text x="218" y="32" fill="#9ca3af" font-size="9">LIVE</text>
+      <text x="218" y="52" fill="#f3f4f6" font-weight="700" font-size="14" font-family="Courier New">01:23:45</text>
+      <!-- GO LIVE -->
+      <rect x="285" y="20" width="68" height="38" rx="4" fill="#b91c1c"/>
+      <text x="319" y="43" text-anchor="middle" fill="white" font-weight="700" font-size="11">END LIVE</text>
+      <!-- CALL -->
+      <text x="366" y="32" fill="#9ca3af" font-size="9">CALL</text>
+      <text x="366" y="46" fill="#6b7280" font-family="Courier New" font-size="12">00:00</text>
+      <text x="366" y="60" fill="#4b5563" font-size="8">📞 Start</text>
+      <!-- COUNTDOWN -->
+      <text x="416" y="32" fill="#9ca3af" font-size="9">COUNTDOWN</text>
+      <text x="416" y="46" fill="#f3f4f6" font-family="Courier New" font-size="12">04:59</text>
+      <!-- VOL -->
+      <text x="475" y="32" fill="#9ca3af" font-size="9">VOL</text>
+      <rect x="475" y="40" width="60" height="6" rx="3" fill="#374151"/>
+      <rect x="475" y="40" width="42" height="6" rx="3" fill="#3b82f6"/>
+      <!-- MIC panel -->
+      <rect x="543" y="8" width="72" height="64" rx="4" fill="#162030" stroke="#374151"/>
+      <text x="579" y="24" text-anchor="middle" fill="#9ca3af" font-size="9">🎙 MIC</text>
+      <rect x="549" y="27" width="60" height="5" rx="2" fill="#1e293b"/>
+      <rect x="549" y="27" width="28" height="5" rx="2" fill="#10b981"/>
+      <rect x="549" y="37" width="60" height="18" rx="3" fill="#065f46"/>
+      <text x="579" y="50" text-anchor="middle" fill="white" font-size="9" font-weight="700">🎙 LIVE</text>
+      <text x="579" y="66" text-anchor="middle" fill="#9ca3af" font-size="8">🎚 Duck</text>
+      <!-- Tape -->
+      <rect x="622" y="8" width="70" height="64" rx="4" fill="#162030" stroke="#374151"/>
+      <text x="657" y="24" text-anchor="middle" fill="#9ca3af" font-size="9">⏺ RECORDER</text>
+      <text x="657" y="38" text-anchor="middle" fill="#6b7280" font-size="9">IDLE</text>
+      <text x="657" y="58" text-anchor="middle" fill="#4b5563" font-size="14">⏺ ⏹ ▶</text>
+    </svg>
+    <figcaption>Header layout — left to right</figcaption>
+  </div>
+
+  <h3>GO LIVE / END LIVE</h3>
+  <p>Toggles the broadcast state. When live: the ON AIR badge turns red, the live timer counts up, and all session log entries include <code>[elapsed]</code> time. <strong>Right-click</strong> to rename or recolour the button.</p>
+
+  <h3>CALL Timer</h3>
+  <p>Click <strong>📞 Start</strong> to begin timing a caller. The timer counts up in MM:SS. Click <strong>⏹ End Call</strong> to stop — the start and end events are automatically stamped to the Session Log including the total call duration.</p>
+
+  <h3>COUNTDOWN</h3>
+  <p>Type a time in MM:SS and press ▶, or use the <strong>5m</strong> / <strong>10m</strong> quick buttons. The display turns red in the final 30 seconds. Useful for segment timing or music bed fade-outs.</p>
+
+  <h3>VOL / MUTE / PANIC</h3>
+  <ul>
+    <li><strong>VOL</strong> — master volume for all soundboard and queue playback.</li>
+    <li><strong>MUTE</strong> — silences all audio instantly. Click again to restore. <span class="badge badge-amber">Right-click</span> to recolour.</li>
+    <li><strong>PANIC</strong> — stops every sound playing immediately. <span class="badge badge-red">Emergency use</span>. Also bound to <kbd>Ctrl+Shift+P</kbd>.</li>
+  </ul>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="soundboard">Soundboard</h2>
+  <p>The soundboard is the heart of the companion. Buttons are arranged in banks, each with configurable rows and columns.</p>
+
+  <h3>Assigning sounds</h3>
+  <ul>
+    <li><strong>Right-click</strong> any button → <em>Assign File</em> to browse for an audio file.</li>
+    <li><strong>Drag &amp; drop</strong> an audio file from Windows Explorer directly onto any button.</li>
+    <li>Supported formats: <code>.mp3 .wav .ogg .flac .m4a</code></li>
+  </ul>
+
+  <h3>Playing sounds</h3>
+  <ul>
+    <li><strong>Left-click</strong> — play the sound. Click again to stop (toggle mode).</li>
+    <li>Each button gets its own audio channel — sounds play simultaneously.</li>
+    <li>Buttons turn blue while playing, return to normal when finished.</li>
+  </ul>
+
+  <h3>Bank management</h3>
+  <ul>
+    <li>Click a <strong>bank tab</strong> at the top to switch banks instantly (cached — no loading delay).</li>
+    <li>Click <strong>+ Bank</strong> in the tab bar to add a new bank on the fly — name it and it's ready immediately.</li>
+    <li><strong>Right-click a bank tab</strong> → change colour, export/import the whole bank as JSON.</li>
+    <li>Use <strong>Settings → Soundboard</strong> to rename banks, change rows/columns, or delete banks.</li>
+  </ul>
+
+  <h3>Pinned row</h3>
+  <p>The pinned row sits above the bank tabs and is always visible regardless of which bank you're on — ideal for sounds you need in every segment (e.g. your intro sting, applause, hold music).</p>
+
+  <h3>Edit mode</h3>
+  <p>Click <strong>🔓 Edit</strong> in the tab bar to unlock the soundboard. In edit mode you can drag files, rename buttons, and right-click for full options. Click <strong>🔒 Locked</strong> to prevent accidental changes during a live show.</p>
+
+  <div class="callout tip">
+    <strong>💡 Tip</strong>
+    Right-click any assigned button to access FX settings — add reverb, pitch shift, or a loopback echo per-button. FX apply on the next play.
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="queue">Music Queue</h2>
+  <p>The queue sits to the right of the soundboard and handles your background music playlist.</p>
+
+  <h3>Adding tracks</h3>
+  <ul>
+    <li>Click <strong>Browse &amp; Add</strong> to open a file picker (multi-select supported).</li>
+    <li>Drag &amp; drop audio files directly into the queue list.</li>
+  </ul>
+
+  <h3>Transport controls</h3>
+  <table>
+    <tr><th>Button</th><th>Action</th></tr>
+    <tr><td>⏮</td><td>Previous track</td></tr>
+    <tr><td>▶</td><td>Play current track</td></tr>
+    <tr><td>⏸</td><td>Pause / Resume</td></tr>
+    <tr><td>⏹</td><td>Stop</td></tr>
+    <tr><td>⏭</td><td>Next track</td></tr>
+  </table>
+
+  <h3>Reordering</h3>
+  <p>Grab the <strong>⠿ drag handle</strong> on the left of any queue row and drag it to a new position. The dragged item highlights amber and a line shows the insertion point.</p>
+
+  <h3>Auto mode</h3>
+  <p>Toggle <strong>Auto</strong> to enable continuous playback — when one track ends, the next starts automatically. Perfect for unattended music beds.</p>
+
+  <h3>VOL/FADE slider</h3>
+  <p>The vertical slider beside the queue controls the performance fade level — separate from master volume so you can duck music without affecting soundboard effects. The Mic panel's <strong>🎚 Duck</strong> button uses this slider.</p>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="recorder">Tape Recorder</h2>
+  <p>Located in the top-right of the header. Records your show or any audio routed through your selected input device.</p>
+
+  <h3>Controls</h3>
+  <table>
+    <tr><th>Button</th><th>Action</th></tr>
+    <tr><td>⏺ REC</td><td>Start recording</td></tr>
+    <tr><td>⏸</td><td>Pause / Resume</td></tr>
+    <tr><td>⏹</td><td>Stop and prompt to save</td></tr>
+    <tr><td>▶</td><td>Play back the current recording</td></tr>
+    <tr><td>🔁</td><td>Loop playback on/off</td></tr>
+    <tr><td>💾</td><td>Save the recording to the recordings folder</td></tr>
+    <tr><td>🗑</td><td>Delete the current recording</td></tr>
+    <tr><td>📂</td><td>Open the recordings folder in Explorer</td></tr>
+  </table>
+
+  <h3>Loading files</h3>
+  <p>Drag any audio file from Windows Explorer onto the recorder section to load it for playback. Useful for playing back a previous recording or a pre-recorded segment.</p>
+
+  <h3>Recordings list</h3>
+  <p>Click the dropdown below the transport to switch between saved recordings. Files are stored in your configured recordings folder (default: <code>%USERPROFILE%\IceCatCompanion_v3\recordings\</code>).</p>
+
+  <div class="callout note">
+    <strong>📝 Note</strong>
+    Set your input device in <strong>Settings → Audio → Input Device</strong> before recording. For a full show recording, use Voicemeeter Output or Stereo Mix to capture everything.
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="mic">Mic Panel</h2>
+  <p>The mic panel sits between the PANIC button and the tape recorder in the header.</p>
+
+  <div class="diagram">
+    <svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,sans-serif" font-size="10">
+      <rect width="200" height="110" rx="8" fill="#0f1923" stroke="#374151"/>
+      <!-- MIC label + VU -->
+      <text x="10" y="22" fill="#9ca3af" font-size="9" font-weight="700">🎙 MIC</text>
+      <rect x="50" y="12" width="140" height="8" rx="3" fill="#1e293b"/>
+      <rect x="50" y="12" width="60" height="8" rx="3" fill="#10b981"/>
+      <!-- MUTE btn -->
+      <rect x="10" y="32" width="170" height="24" rx="4" fill="#065f46"/>
+      <text x="95" y="48" text-anchor="middle" fill="white" font-weight="700">🎙 LIVE</text>
+      <!-- Duck btn -->
+      <rect x="10" y="62" width="170" height="24" rx="4" fill="#1f2937"/>
+      <text x="95" y="78" text-anchor="middle" fill="#9ca3af" font-weight="700">🎚 Duck</text>
+      <!-- GAIN -->
+      <text x="10" y="100" fill="#6b7280" font-size="9">GAIN</text>
+      <rect x="40" y="93" width="150" height="6" rx="3" fill="#374151"/>
+      <rect x="40" y="93" width="95" height="6" rx="3" fill="#3b82f6"/>
+    </svg>
+    <figcaption>Mic panel layout</figcaption>
+  </div>
+
+  <h3>🎙 LIVE / 🔴 MUTED</h3>
+  <p>Mutes or unmutes the Windows input device you selected in Settings → Audio → Mic Input Device. Sets both the Windows mute flag and the volume to zero for a hard mute. <strong>On app close, the mic is always restored to unmuted.</strong></p>
+
+  <h3>🎚 Duck (toggle)</h3>
+  <p>Press once to smoothly fade the VOL/FADE slider down to your configured duck level. Press again to fade it back up. The fade speed matches your Settings → Audio → Fade Duration. Button turns amber when ducked.</p>
+
+  <h3>GAIN slider</h3>
+  <p>Controls the Windows input device volume (0–100%). This is the mic gain at the OS level.</p>
+
+  <div class="callout note">
+    <strong>📝 Setup required</strong>
+    Go to <strong>Settings → Audio → Mic Input Device</strong> and select your microphone for the mute button to work. If the label shows <em>🎙 NO DEVICE</em>, the device hasn't been configured.
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="rightpanel">Right Panel</h2>
+  <p>The right panel contains quick access tools stacked vertically.</p>
+
+  <h3 id="tools">Quick Folders + Sites</h3>
+  <p>Six programmable folder buttons in two rows. <strong>Right-click</strong> any button to assign a folder path or customise the label and colour. Click the button to open that folder in Windows Explorer.</p>
+  <p>Below the folder buttons is a <strong>website dropdown</strong>. Select a site and click <strong>Go</strong> to open it in your browser. Use <strong>+</strong> to add a site, <strong>🗑</strong> to remove the selected one. Full management is in <strong>Settings → Websites</strong>.</p>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="notes">Notes</h2>
+  <p>Located in the bottom-left strip. Two tabs by default: <strong>Show Notes</strong> and <strong>Premises &amp; Ideas</strong> (configurable in Settings → Show).</p>
+  <ul>
+    <li><strong>🗑 Clear</strong> — clears the current tab (asks for confirmation).</li>
+    <li><strong>💾 Save</strong> — opens a Save As dialog to export the current tab to a <code>.txt</code> file.</li>
+    <li>Notes auto-save to config every 5 minutes and on app close — you won't lose your notes.</li>
+  </ul>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="sessionlog">Session Log</h2>
+  <p>The session log automatically records everything that happens during your show.</p>
+
+  <h3>What gets logged automatically</h3>
+  <ul>
+    <li>Every sound played (bank name, button label, duration)</li>
+    <li>Queue tracks played</li>
+    <li>GO LIVE / END LIVE events</li>
+    <li>Call started / Call ended (with duration)</li>
+    <li>Gold moment markers</li>
+  </ul>
+
+  <h3>Timestamp row</h3>
+  <p>At the top of the log area: type a note in the text field and press <kbd>Enter</kbd> or click <strong>📌 Timestamp</strong> to add a custom stamped entry. Leave the field empty to add a plain timestamp with no note.</p>
+
+  <h3>Timestamp format</h3>
+  <p>Entries show: <code>Mar 22 14:32:01</code>. When live, they also include elapsed show time: <code>Mar 22 14:32:01  [01:23:45]</code>.</p>
+
+  <h3>Controls</h3>
+  <table>
+    <tr><th>Button</th><th>Action</th></tr>
+    <tr><td>⏸ Pause</td><td>Freeze the log (events still recorded, display paused)</td></tr>
+    <tr><td>📋 Copy Summary</td><td>Copy a formatted show summary to the clipboard</td></tr>
+    <tr><td>💾 Export</td><td>Save the full log as a text file</td></tr>
+    <tr><td>🗑 Clear</td><td>Clear all log entries (asks for confirmation, resets pause state)</td></tr>
+  </table>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="bits">Bits Board</h2>
+  <p>A scratchpad for your show bit ideas — title, notes, and a done state.</p>
+  <ul>
+    <li><strong>◀ / ▶</strong> — navigate between bits.</li>
+    <li><strong>+ Add Bit</strong> — creates a new blank bit at the end.</li>
+    <li><strong>💾 Save Bit</strong> — saves the current bit's title and content to config.</li>
+    <li><strong>✓ Mark Done</strong> — marks the bit as completed (text dims). Auto-saves.</li>
+    <li><strong>🗑 Delete</strong> — removes the current bit (must have at least one).</li>
+    <li><strong>↺ Reset</strong> — clears all Done marks across all bits.</li>
+    <li><strong>🎲</strong> — jump to a random bit (great for when you're stuck for ideas).</li>
+  </ul>
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="mini">Mini Mode</h2>
+  <p>A compact always-on-top strip for when you need the companion visible but out of the way. Activate with <kbd>Ctrl+Shift+Z</kbd> or via the View menu.</p>
+
+  <div class="diagram">
+    <svg viewBox="0 0 760 155" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,sans-serif" font-size="10">
+      <rect width="760" height="155" rx="8" fill="#0f1923" stroke="#374151"/>
+      <!-- Title bar -->
+      <rect x="0" y="0" width="760" height="18" rx="8" fill="#1e293b"/>
+      <text x="8" y="13" fill="#6b7280" font-size="9">IceCat Show Companion — Mini Mode</text>
+      <text x="740" y="13" text-anchor="end" fill="#60a5fa" font-size="9">⛶ Expand</text>
+      <!-- Row 1 -->
+      <rect x="8" y="26" width="80" height="32" rx="4" fill="#1a0a0a" stroke="#ef4444"/>
+      <text x="48" y="46" text-anchor="middle" fill="#ef4444" font-weight="700" font-size="10">● ON AIR</text>
+      <text x="102" y="38" fill="#9ca3af" font-size="8">LIVE</text>
+      <text x="102" y="52" fill="white" font-family="Courier New" font-size="13" font-weight="700">01:23:45</text>
+      <rect x="160" y="28" width="70" height="28" rx="4" fill="#b91c1c"/>
+      <text x="195" y="46" text-anchor="middle" fill="white" font-weight="700" font-size="10">END LIVE</text>
+      <rect x="240" y="28" width="70" height="28" rx="4" fill="#065f46"/>
+      <text x="275" y="46" text-anchor="middle" fill="white" font-weight="700" font-size="9">🎙 LIVE</text>
+      <text x="323" y="36" fill="#9ca3af" font-size="8">MIC</text>
+      <rect x="323" y="40" width="60" height="7" rx="3" fill="#1e293b"/>
+      <rect x="323" y="40" width="28" height="7" rx="3" fill="#10b981"/>
+      <text x="398" y="36" fill="#9ca3af" font-size="8">GAIN</text>
+      <rect x="398" y="40" width="70" height="7" rx="3" fill="#374151"/>
+      <rect x="398" y="40" width="42" height="7" rx="3" fill="#3b82f6"/>
+      <!-- Row 2 -->
+      <text x="8" y="80" fill="#9ca3af" font-size="8">NOW PLAYING</text>
+      <text x="8" y="94" fill="white" font-weight="700" font-size="10">Chill Vibes Mix</text>
+      <text x="165" y="94" text-anchor="middle" fill="#9ca3af" font-size="16">⏮</text>
+      <text x="195" y="94" text-anchor="middle" fill="#9ca3af" font-size="16">▶</text>
+      <text x="222" y="94" text-anchor="middle" fill="#9ca3af" font-size="16">⏸</text>
+      <text x="248" y="94" text-anchor="middle" fill="#9ca3af" font-size="16">⏹</text>
+      <text x="274" y="94" text-anchor="middle" fill="#9ca3af" font-size="16">⏭</text>
+      <text x="300" y="82" fill="#9ca3af" font-size="8">SND</text>
+      <rect x="300" y="86" width="60" height="7" rx="3" fill="#1e293b"/>
+      <rect x="300" y="86" width="40" height="7" rx="3" fill="#3b82f6"/>
+      <text x="373" y="82" fill="#9ca3af" font-size="8">VOL</text>
+      <rect x="373" y="86" width="70" height="7" rx="3" fill="#374151"/>
+      <rect x="373" y="86" width="50" height="7" rx="3" fill="#3b82f6"/>
+      <rect x="454" y="76" width="68" height="24" rx="4" fill="#1f2937"/>
+      <text x="488" y="92" text-anchor="middle" fill="#9ca3af" font-size="9">⏹ Stop All</text>
+      <rect x="532" y="76" width="70" height="24" rx="4" fill="#cc0000"/>
+      <text x="567" y="92" text-anchor="middle" fill="white" font-weight="700" font-size="9">🚨 PANIC</text>
+      <!-- Row 3 -->
+      <rect x="8" y="115" width="180" height="24" rx="4" fill="#1f2937"/>
+      <text x="98" y="130" text-anchor="middle" fill="#6b7280" font-size="9">note...</text>
+      <rect x="196" y="115" width="70" height="24" rx="4" fill="#1f2937"/>
+      <text x="231" y="130" text-anchor="middle" fill="#f59e0b" font-size="9" font-weight="700">📌 Stamp</text>
+    </svg>
+    <figcaption>Mini mode layout — three rows</figcaption>
+  </div>
+
+  <p>Drag the mini window by the title bar. It stays on top of all other windows. Click <strong>⛶ Expand</strong> or press <kbd>Ctrl+Shift+Z</kbd> again to return to the full window.</p>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="settings-show">Settings — Show</h2>
+  <ul>
+    <li><strong>Show Name</strong> — appears in session log exports and the title bar.</li>
+    <li><strong>Episode Number</strong> — auto-increments each time you click GO LIVE. Used in title templates.</li>
+    <li><strong>Title Template</strong> — e.g. <code>The Chill With IceCat #{n} — {date}</code>. Variables: <code>{n}</code> = episode number, <code>{date}</code> = today's date.</li>
+    <li><strong>Prankcast URL</strong> — used for the Discord webhook go-live notification.</li>
+    <li><strong>Note Tabs</strong> — comma-separated tab names for the Notes section.</li>
+  </ul>
+
+  <h2 id="settings-audio">Settings — Audio &amp; Mic</h2>
+  <ul>
+    <li><strong>Output Device</strong> — where soundboard audio plays. Select your Voicemeeter virtual input or speakers.</li>
+    <li><strong>Input Device (recorder)</strong> — what the tape recorder captures. Use Voicemeeter Output or Stereo Mix for full show recording.</li>
+    <li><strong>Recordings Folder</strong> — where saved recordings are stored.</li>
+    <li><strong>Recording Format</strong> — WAV (lossless) or MP3 (compressed).</li>
+    <li><strong>Fade Duration</strong> — how long the VOL/FADE fade takes in seconds (used by Duck button too).</li>
+    <li><strong>Mic Input Device</strong> — the Windows input device the Mute button controls. Pick your physical mic or Voicemeeter strip.</li>
+    <li><strong>Duck Level</strong> — how far the VOL/FADE slider drops when you press Duck (0% = silent, 100% = unchanged).</li>
+  </ul>
+
+  <h2 id="settings-soundboard">Settings — Soundboard</h2>
+  <ul>
+    <li><strong>Pinned Row Count</strong> — how many buttons in the always-visible pinned row (2–12).</li>
+    <li><strong>Music Bank</strong> — designate one bank as the music bank for more detailed session log entries.</li>
+    <li><strong>Banks</strong> — rename banks, set rows/columns, delete banks. Changes take effect on Save &amp; Close.</li>
+  </ul>
+
+  <h2 id="settings-hotkeys">Settings — Hotkeys</h2>
+  <p>All hotkeys use the format <code>modifier+key</code>, e.g. <code>ctrl+shift+l</code>. Leave blank to disable a hotkey.</p>
+
+  <h2 id="settings-websites">Settings — Websites</h2>
+  <p>Add, edit, or remove websites that appear in the Quick Folders + Sites dropdown. Enter a short Label and the full URL (including <code>https://</code>). Changes take effect immediately on Save &amp; Close.</p>
+
+  <h2 id="settings-visual">Settings — Visual</h2>
+  <ul>
+    <li><strong>Color Theme</strong> — choose from Default Blue, Midnight Purple, Ice Blue, or Matrix Green. Requires app restart.</li>
+    <li><strong>Font Size</strong> — base font size for the interface.</li>
+    <li><strong>Window Opacity</strong> — make the window semi-transparent (useful for streaming overlays).</li>
+  </ul>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="shortcuts">⌨️ Keyboard Shortcuts</h2>
+  <table>
+    <tr><th>Action</th><th>Default Shortcut</th></tr>
+    <tr><td>Go Live / End Live</td><td><kbd>Ctrl+Shift+L</kbd></td></tr>
+    <tr><td>Panic (Stop All)</td><td><kbd>Ctrl+Shift+P</kbd></td></tr>
+    <tr><td>Mute Toggle</td><td><kbd>Ctrl+Shift+M</kbd></td></tr>
+    <tr><td>Add Timestamp</td><td><kbd>Ctrl+Shift+T</kbd></td></tr>
+    <tr><td>Gold Moment</td><td><kbd>Ctrl+Shift+G</kbd></td></tr>
+    <tr><td>Toggle Mini Mode</td><td><kbd>Ctrl+Shift+Z</kbd></td></tr>
+  </table>
+  <p>All shortcuts are customisable in <strong>Settings → Hotkeys</strong>.</p>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="tips">💡 Tips &amp; Tricks</h2>
+
+  <div class="grid">
+    <div class="card">
+      <div class="icon">⚡</div>
+      <h4>Instant bank switching</h4>
+      <p>Sound durations are cached after first load. Bank tabs switch with zero delay after the first visit.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🎚️</div>
+      <h4>Duck for callers</h4>
+      <p>Hit 🎚 Duck in the mic panel before putting a caller to air — music fades smoothly. Hit it again when they hang up.</p>
+    </div>
+    <div class="card">
+      <div class="icon">📌</div>
+      <h4>Stamp everything</h4>
+      <p>Use the timestamp field in the session log to mark your best bits. When you export, you have a timestamped show map.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🎲</div>
+      <h4>Bits board randomiser</h4>
+      <p>Click 🎲 when you're running dry on ideas mid-show. It jumps to a random unread bit.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🔒</div>
+      <h4>Lock before going live</h4>
+      <p>Click 🔒 Lock in the soundboard tab bar before you start. Prevents accidentally moving or overwriting a button mid-show.</p>
+    </div>
+    <div class="card">
+      <div class="icon">📻</div>
+      <h4>Mini mode for dual screen</h4>
+      <p>Run the full companion on your production screen. Pop mini mode onto your second monitor for on-air use — it's always on top.</p>
+    </div>
+    <div class="card">
+      <div class="icon">💾</div>
+      <h4>Config backups</h4>
+      <p>The app auto-backs up your config on every launch (keeps last 5). For a manual backup before big changes, use Settings → About → 🔒 Backup Config.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🎵</div>
+      <h4>Queue auto mode</h4>
+      <p>Load your whole music library into the queue and turn on Auto. It plays through continuously without any intervention.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════ -->
+  <h2 id="troubleshooting">🔧 Troubleshooting &amp; FAQ</h2>
+
+  <details>
+    <summary>The app won't start — I see a Python error</summary>
+    <div class="faq-body">
+      <p>Run <code>pip install -r requirements.txt</code> in the app folder to ensure all dependencies are installed. Key ones: <code>customtkinter</code>, <code>pygame</code>, <code>sounddevice</code>, <code>pycaw</code>, <code>tkinterdnd2</code>.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Sound buttons aren't playing audio</summary>
+    <div class="faq-body">
+      <p>Check <strong>Settings → Audio → Output Device</strong>. If it says "Default (System)" and you're using Voicemeeter, select your Voicemeeter virtual input instead. Also check the VOL slider isn't at zero and MUTE isn't active.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The Mic Mute button shows "NO DEVICE"</summary>
+    <div class="faq-body">
+      <p>Go to <strong>Settings → Audio → Mic Input Device</strong> and select your microphone from the dropdown. The list shows proper Windows device names — look for your physical mic or the Voicemeeter strip you use for your mic. Save &amp; Close to apply.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The mic is muted after closing the app</summary>
+    <div class="faq-body">
+      <p>This is fixed in v3.0 — the app always restores the mic to unmuted on close. If you're on an older build, update to the latest zip.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Drag and drop onto soundboard buttons isn't working</summary>
+    <div class="faq-body">
+      <p>Make sure <code>tkinterdnd2</code> is installed (<code>pip install tkinterdnd2</code>). Also try dragging from Windows Explorer rather than another app. The button must be in Edit mode (🔓 Edit in the tab bar).</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The device dropdown in Audio settings shows weird names or duplicates</summary>
+    <div class="faq-body">
+      <p>The app uses the Windows MMDevice API for device names. If you see duplicates, one is likely a legacy driver entry — pick the one that matches what you see in Windows Sound settings. Voicemeeter devices are sorted to the top.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Session log timestamps don't show elapsed time</summary>
+    <div class="faq-body">
+      <p>Elapsed time only appears in brackets when you're live (GO LIVE pressed). Off-air entries show wall-clock time only.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>My notes disappeared</summary>
+    <div class="faq-body">
+      <p>Notes auto-save to <code>config.json</code> every 5 minutes and on close. If you renamed a notes tab in Settings, the content for the old tab name is still in config under the old key. Check <code>%USERPROFILE%\IceCatCompanion_v3\config.json</code> in a text editor under <code>"notes_content"</code>.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>How do I reset everything to defaults?</summary>
+    <div class="faq-body">
+      <p>Close the app, then delete <code>%USERPROFILE%\IceCatCompanion_v3\config.json</code>. The app will regenerate fresh defaults on next launch. Your recordings are unaffected.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Where are my files stored?</summary>
+    <div class="faq-body">
+      <ul>
+        <li><strong>Config:</strong> <code>%USERPROFILE%\IceCatCompanion_v3\config.json</code></li>
+        <li><strong>Config backups:</strong> <code>%USERPROFILE%\IceCatCompanion_v3\config_backups\</code></li>
+        <li><strong>Recordings:</strong> <code>%USERPROFILE%\IceCatCompanion_v3\recordings\</code></li>
+        <li><strong>Error log:</strong> <code>%USERPROFILE%\IceCatCompanion_v3\logs\icecat.log</code></li>
+      </ul>
+    </div>
+  </details>
+
+  <hr class="divider">
+  <p style="font-size:13px;color:var(--text-light);text-align:center;padding:20px 0">
+    IceCat Show Companion v3.0 &nbsp;·&nbsp; Built for The Chill With IceCat on Prankcast &nbsp;·&nbsp;
+    <a href="https://prankcast.com/icecat" target="_blank">prankcast.com/icecat</a>
+  </p>
+
+</main>
+</div>
+
+<script>
+// Highlight active nav link on scroll
+const links = document.querySelectorAll('nav a[href^="#"]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const match = document.querySelector(`nav a[href="#${e.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+document.querySelectorAll('h2[id], h3[id]').forEach(h => observer.observe(h));
+</script>
+</body>
+</html>
