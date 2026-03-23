@@ -12,7 +12,7 @@ All-in-one live radio show production tool for Prankcast hosts and internet broa
 
 Built for **[The Chill With IceCat](https://prankcast.com/icecat)** on Prankcast.
 
-> 📺 **[Watch the setup tutorial on YouTube](#)** *(coming soon)*
+> 📺 **[Watch the setup tutorial on YouTube](https://www.youtube.com/watch?v=D2DV7TiNq1g)** 
 
 ---
 
